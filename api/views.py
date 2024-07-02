@@ -37,12 +37,18 @@ def weather(request, lat: str, log: str):
 
 
 @api_view(["GET"])
+def getInfo(request):
+    info = {"name": "Smart Monday", "Slack": "@smartPYJ"}
+    return Response(info)
+    
+
+@api_view(["GET"])
 def getData(request):
     serializer = VisitorName(data=request.GET)
     if serializer.is_valid():
         visitor_name = serializer.validated_data['visitor_name']
         ip = get_client_ip(request)
-        coordinate = get_coordinate(request, ip)
+        coordinate = get_coordinate(request, "5.181.233.166")
         city = coordinate["city"]
         lat, log = coordinate["latitude"], coordinate["longitude"]
         temp = weather(request, lat, log)
